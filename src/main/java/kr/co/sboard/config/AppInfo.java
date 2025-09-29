@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 @NoArgsConstructor
 @Builder
 
-public class Appinfo {
+public class AppInfo {
 
     @Value("${spring.application.name}")
     private String appName;

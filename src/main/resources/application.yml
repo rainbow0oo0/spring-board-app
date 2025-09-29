@@ -19,14 +19,14 @@ spring:
   datasource:
     driver-class-name: oracle.jdbc.OracleDriver
     url: jdbc:oracle:thin:@//43.203.186.197:1522/XEPDB1
-    username: rainbow0oo0
+    username: sboard
     password: abc1234!
   devtools:
     livereload:
       enabled: true
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
       naming:
         physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
     properties:
@@ -35,10 +35,26 @@ spring:
         format_sql: true
         show_sql: true
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: eternalsoul0634@gmail.com
+    password: abc1234!
+    propertims:
+      mail:
+        smtp:
+          auth: true
+          timeout: 5500
+          starttls:
+            enable: true
+
   security:
     user:
       name: user
       password: 1234
       roles: ADMIN
 
-
+  servlet:
+    multipart:
+      location: upload
+      max-file-size: 10MB

@@ -2,12 +2,10 @@ package kr.co.sboard.intercepter;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import kr.co.sboard.config.Appinfo;
+import kr.co.sboard.config.AppInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.awt.desktop.PreferencesHandler;
 
 @RequiredArgsConstructor
 public class AppInfoIntercepter implements HandlerInterceptor {
@@ -18,7 +16,7 @@ public class AppInfoIntercepter implements HandlerInterceptor {
          - HTTP 요청을 가로채고, 요청이 컨트롤러에 도달 전 또는 후에 추가 작업 수행
     */
 
-    private final Appinfo appinfo;
+    private final AppInfo appinfo;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

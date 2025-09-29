@@ -1,8 +1,16 @@
 package kr.co.sboard.controller;
 
+import jakarta.servlet.http.HttpServlet;
+import kr.co.sboard.dto.ArticleDTO;
+import kr.co.sboard.service.ArticleService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
+@Slf4j
+@RequiredArgsConstructor
 @Controller
 public class ArticleController {
 
@@ -28,10 +36,18 @@ public class ArticleController {
 
     @GetMapping("/artcle/write")
     public String write(){
-        return "artcle/writew";
+        return "artcle/write";
     }
 
+    @PostMapping("/article/write")
+    public String write(ArticleDTO articleDTO, HttpServlet request){
 
+        log.info("articleDTO = {}", articleDTO);
+
+        // ArticleService.save(articleDTO);
+
+        return "redirect:/artcle/list";
+    }
 
 
 }
