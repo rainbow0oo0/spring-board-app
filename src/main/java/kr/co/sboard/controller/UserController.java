@@ -72,11 +72,12 @@ public class UserController {
 
         int count = userService.countUser(type, value);
 
-
         // Json 생성
         Map<String,Integer> map = Map.of("count", count);
 
         return ResponseEntity.ok(map);
     }
+
+
 
 }

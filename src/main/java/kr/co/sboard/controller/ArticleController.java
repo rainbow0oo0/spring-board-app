@@ -2,20 +2,31 @@ package kr.co.sboard.controller;
 
 import jakarta.servlet.http.HttpServlet;
 import kr.co.sboard.dto.ArticleDTO;
+import kr.co.sboard.dto.PageResponseDTO;
 import kr.co.sboard.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
 @Controller
 public class ArticleController {
 
+    private final ArticleService articleService;
+
     @GetMapping("/artcle/list")
-    public String list(){
+    public String list(Model model, PageResponseDTO pageRequestDTO) {
+
+        PageResponseDTO pageResponseDTO = articleService.getArticleAll(pageRequestDTO);
+
+        model.addAttribute(pageResponseDTO);
+
         return "artcle/list";
     }
 
