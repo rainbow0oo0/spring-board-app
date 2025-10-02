@@ -1,5 +1,7 @@
 package kr.co.sboard.dto;
 
+
+import kr.co.sboard.entity.Article;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,10 +23,14 @@ public class PageResponseDTO {
     private int start, end;
     private boolean prev, next;
 
+    private String searchType;
+    private String keyword;
+
+
     @Builder
     public PageResponseDTO(PageRequestDTO pageRequestDTO, List<ArticleDTO> dtoList, int total){
 
-        this.cate =  pageRequestDTO.getCate();
+        this.cate = pageRequestDTO.getCate();
         this.pg = pageRequestDTO.getPg();
         this.size = pageRequestDTO.getSize();
         this.total = total;
@@ -39,7 +45,8 @@ public class PageResponseDTO {
         this.prev = this.start > 1;
         this.next = total > this.end * this.size;
 
+        this.searchType = pageRequestDTO.getSearchType();
+        this.keyword = pageRequestDTO.getKeyword();
 
     }
-
 }

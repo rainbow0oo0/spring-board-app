@@ -14,20 +14,6 @@ import java.util.List;
 @SpringBootTest
 class SboardApplicationTests {
 
-    @Autowired
-    ArticleRepository articleRepository;
 
-    @Test
-    void test1(){
-
-        Pageable pageable = PageRequest.of(0, 10);
-
-        Page<Tuple> pageTuple= articleRepository.selectArticleAllForList(pageable);
-
-        List<Tuple> tupleList = pageTuple.getContent();
-
-        System.out.println(tupleList);
-
-    }
 
 }

@@ -27,19 +27,23 @@ public class UserController {
 
     private final TermsService termsService;
     private final UserService userService;
+    private final AppInfo appInfo;
 
     @GetMapping("/user/info")
-    public String info(){
+    public String info(Model model){
+        model.addAttribute("appInfo", appInfo);
         return "user/info";
     }
 
     @GetMapping("/user/login")
-    public String login(){
+    public String login(Model model){
+        model.addAttribute("appInfo", appInfo);
         return "user/login";
     }
 
     @GetMapping("/user/register")
-    public String register(){
+    public String register(Model model){
+        model.addAttribute("appInfo", appInfo);
         return "user/register";
     }
 

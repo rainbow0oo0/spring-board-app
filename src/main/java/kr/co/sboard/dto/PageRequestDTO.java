@@ -5,9 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-
-import java.awt.print.Pageable;
 
 @Data
 @AllArgsConstructor
@@ -22,14 +21,22 @@ public class PageRequestDTO {
     private int pg = 1;
 
     @Builder.Default
-    private int size= 10;
+    private int size = 10;
 
     @Builder.Default
     private String cate = "free";
 
-    public Pageable getPageable(String sort){
-        return PageRequest.of(this.pg - 1, this.size, Sort.by(sort));
+    private String searchType;
+    private String keyword;
 
+    private int offset;
+
+    public int getOffset() {
+        return (pg - 1) * size;
+    }
+
+    public Pageable getPageable(String sort){
+        return PageRequest.of(this.pg - 1, this.size, Sort.by(sort).descending());
     }
 
 

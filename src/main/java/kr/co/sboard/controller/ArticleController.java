@@ -1,9 +1,13 @@
+
 package kr.co.sboard.controller;
 
-import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
 import kr.co.sboard.dto.ArticleDTO;
+import kr.co.sboard.dto.FileDTO;
+import kr.co.sboard.dto.PageRequestDTO;
 import kr.co.sboard.dto.PageResponseDTO;
 import kr.co.sboard.service.ArticleService;
+import kr.co.sboard.service.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -19,45 +23,74 @@ import java.util.List;
 public class ArticleController {
 
     private final ArticleService articleService;
+    private final FileService fileService;
 
-    @GetMapping("/artcle/list")
-    public String list(Model model, PageResponseDTO pageRequestDTO) {
+    @GetMapping("/article/list")
+    public String list(Model model, PageRequestDTO pageRequestDTO){
+
+        // JPA
 
         PageResponseDTO pageResponseDTO = articleService.getArticleAll(pageRequestDTO);
 
         model.addAttribute(pageResponseDTO);
 
-        return "artcle/list";
+        return "article/list";
     }
 
-    @GetMapping("/artcle/modify")
+    @GetMapping("/article/modify")
     public String modify(){
-        return "artcle/modify";
+        return "article/modify";
     }
 
-    @GetMapping("/artcle/searchList")
-    public String searchList(){
-        return "artcle/searchList";
+    @GetMapping("/article/search")
+    public String searchList(PageRequestDTO pageRequestDTO, Model model){
+
+        log.info("pageRequestDTO = {}", pageRequestDTO);
+
+        PageResponseDTO pageResponseDTO = articleService.getArticleAll(pageRequestDTO);
+        model.addAttribute(pageResponseDTO);
+
+        return "article/searchList";
     }
 
-    @GetMapping("/artcle/view")
-    public String view(){
-        return "artcle/view";
+    @GetMapping("/article/view")
+    public String view(int ano, Model model){
+        log.info("ano = {}", ano);
+
+        ArticleDTO articleDTO = articleService.getArticle(ano);
+        model.addAttribute(articleDTO);
+
+        return "article/view";
     }
 
-    @GetMapping("/artcle/write")
+    @GetMapping("/article/write")
     public String write(){
-        return "artcle/write";
+        return "article/write";
     }
 
     @PostMapping("/article/write")
-    public String write(ArticleDTO articleDTO, HttpServlet request){
+    public String write(ArticleDTO articleDTO, HttpServletRequest request){
 
+        String regip = request.getRemoteAddr();
+        articleDTO.setReg_ip(regip);
         log.info("articleDTO = {}", articleDTO);
 
-        // ArticleService.save(articleDTO);
+        // 파일 업로드
+        List<FileDTO> fileDTOList = fileService.upload(articleDTO);
 
-        return "redirect:/artcle/list";
+        // 글 저장
+        int fileCnt = fileDTOList.size();
+        articleDTO.setFile_cnt(fileCnt);
+        int ano = articleService.save(articleDTO);
+
+        // 파일 저장
+        for(FileDTO fileDTO : fileDTOList){
+
+            fileDTO.setAno(ano);
+            fileService.save(fileDTO);
+        }
+
+        return "redirect:/article/list";
     }
 
 
